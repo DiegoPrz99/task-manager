@@ -108,7 +108,7 @@ La aplicación estará disponible en `http://localhost:3000`
 Una vez que la aplicación esté ejecutándose, accede a la documentación interactiva de Swagger:
 
 ```
-http://localhost:3000/api
+http://localhost:3000/api/docs
 ```
 
 ---

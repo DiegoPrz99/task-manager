@@ -6,6 +6,8 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.enableCors();
+
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -16,13 +18,16 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Task Manager API')
-    .setDescription('Gestión de tareas con Nest.js y arquitectura hexagonal')
+    .setDescription('API para gestión de tareas utilizando NestJS y arquitectura hexagonal.')
     .setVersion('1.0')
+    .addTag('Users', 'Operaciones relacionadas con usuarios')
+    .addTag('Tasks', 'Operaciones relacionadas con tareas')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('api/docs', app, document);
 
   await app.listen(3000);
+  console.log('Swagger disponible en http://localhost:3000/api/docs');
 }
 bootstrap();
