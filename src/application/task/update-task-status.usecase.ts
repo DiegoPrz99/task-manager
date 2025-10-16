@@ -11,7 +11,7 @@ export class UpdateTaskStatusUseCase {
 
   async execute(taskId: number, status: TaskStatus) {
     const updated = await this.taskRepository.updateStatus(taskId, status);
-    if (!updated) throw new NotFoundException(`Task with ID ${taskId} not found`);
+    if (!updated) throw new NotFoundException(`Tarea con ID ${taskId} no encontrada`);
     return updated;
   }
 }

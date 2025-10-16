@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Param, Post, Inject } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
 import { CreateUserUseCase } from '../../application/user/create-user.usecase';
+import { GetUserByIdUseCase } from '../../application/user/get-user.usercase';
 import { CreateUserDto } from '../dtos/create-user.dto';
 import { User } from '../../domain/user/user.entity';
 import { IUserRepository } from '../../domain/user/user.repository';
@@ -12,6 +13,7 @@ export class UserController {
     private readonly createUserUseCase: CreateUserUseCase,
     @Inject('IUserRepository')
     private readonly userRepository: IUserRepository,
+    private readonly getUserByIdUseCase: GetUserByIdUseCase,
   ) {}
 
   @Post()
@@ -39,6 +41,6 @@ export class UserController {
   @ApiResponse({ status: 200, description: 'Usuario encontrado' })
   @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
   async findOne(@Param('id') id: number) {
-    return this.userRepository.findById(id);
+    return this.getUserByIdUseCase.execute(id);
   }
 }

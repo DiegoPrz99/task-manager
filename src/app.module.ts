@@ -14,6 +14,7 @@ import { UpdateTaskStatusUseCase } from './application/task/update-task-status.u
 import { SoftDeleteTaskUseCase } from './application/task/soft-delete-task.usecase';
 import { TaskRepositoryImpl } from './infrastructure/persistence/typeorm/task.repository.impl';
 import { CreateUserUseCase } from './application/user/create-user.usecase';
+import { GetUserByIdUseCase } from './application/user/get-user.usercase';
 import { UserRepositoryImpl } from './infrastructure/persistence/typeorm/user.repository.impl';
 
 @Module({
@@ -30,6 +31,7 @@ import { UserRepositoryImpl } from './infrastructure/persistence/typeorm/user.re
     AppService,
     CreateTaskUseCase,
     CreateUserUseCase,
+    GetUserByIdUseCase,
     GetTasksByUserUseCase,
     UpdateTaskStatusUseCase,
     SoftDeleteTaskUseCase,

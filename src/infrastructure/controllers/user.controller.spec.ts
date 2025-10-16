@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserController } from './user.controller';
 import { CreateUserUseCase } from '../../application/user/create-user.usecase';
+import { GetUserByIdUseCase } from '../../application/user/get-user.usercase';
 import { IUserRepository } from '../../domain/user/user.repository';
 import { User } from '../../domain/user/user.entity';
 import { CreateUserDto } from '../dtos/create-user.dto';
@@ -9,6 +10,7 @@ describe('UserController', () => {
   let controller: UserController;
   let mockUserRepository: jest.Mocked<IUserRepository>;
   let mockCreateUserUseCase: jest.Mocked<CreateUserUseCase>;
+  let mockGetUserByIdUseCase: jest.Mocked<GetUserByIdUseCase>;
 
   beforeEach(async () => {
     mockUserRepository = {
@@ -22,11 +24,16 @@ describe('UserController', () => {
       execute: jest.fn(),
     } as any;
 
+    mockGetUserByIdUseCase = {
+      execute: jest.fn(),
+    } as any;
+
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UserController],
       providers: [
         { provide: CreateUserUseCase, useValue: mockCreateUserUseCase },
         { provide: 'IUserRepository', useValue: mockUserRepository },
+        { provide: GetUserByIdUseCase, useValue: mockGetUserByIdUseCase },
       ],
     }).compile();
 
@@ -56,11 +63,11 @@ describe('UserController', () => {
 
   it('debería obtener un usuario por ID', async () => {
     const user = new User({ id: 1, email: 'john@example.com', name: 'John' });
-    mockUserRepository.findById.mockResolvedValue(user);
+    mockGetUserByIdUseCase.execute.mockResolvedValue(user);
 
     const result = await controller.findOne(1);
 
-    expect(mockUserRepository.findById).toHaveBeenCalledWith(1);
+    expect(mockGetUserByIdUseCase.execute).toHaveBeenCalledWith(1);
     expect(result).toEqual(user);
   });
 });
